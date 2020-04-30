@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    android:orientation="vertical"
+    android:layout_gravity="center_horizontal"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/_profileImage"
+        android:layout_marginTop="20dp"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_profile" />
+
+    <TextView
+        android:id="@+id/_userEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/_profileImage"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="@string/email"
+        android:textSize="15sp"/>
+
+    <EditText
+        android:id="@+id/_name"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/_userEmail"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"
+        android:hint="@string/name"
+        android:textColorHint="@android:color/tertiary_text_light"
+        android:paddingStart="5dp"
+        android:paddingEnd="10dp"/>
+
+    <com.manojbhadane.QButton
+        android:id="@+id/_randomPartnerKey"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/_name"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="25dp"
+        android:textColor="@color/white"
+        android:text="XXXXXX"
+        app:qb_backgroundColor="#00FFFFFF"
+        app:qb_strokeWidth="3"
+        app:qb_strokeColor="@color/colorPrimaryDark"
+        app:qb_radius="10"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        android:clickable="false"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/_randomPartnerKey"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:text="Please enter the Key given above. \nThis key will be used to connect with your partner"
+        android:textAlignment="center"
+        android:textSize="9sp"/>
+
+    <EditText
+        android:id="@+id/_partnerKey"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/_randomPartnerKey"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="25dp"
+        android:textSize="15sp"
+        android:hint="Code"
+        android:textColorHint="@android:color/tertiary_text_light"
+        android:paddingStart="5dp"
+        android:paddingEnd="10dp"/>
+
+    <TextView
+        android:id="@+id/_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/_partnerKey"
+        android:layout_marginTop="10dp"
+        android:textSize="12sp"
+        android:layout_gravity="center_horizontal"
+        android:textStyle="bold"
+        android:text="Please note that this step is required and cannot be skipped"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/_btnConfirm"
+        android:layout_width="75dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/_info"
+        android:layout_marginTop="20dp"
+        android:text="Confirm"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:background="@drawable/button_gradient"
+        android:layout_marginStart="240dp"
+        android:layout_marginBottom="20dp"/>
+
+</LinearLayout>

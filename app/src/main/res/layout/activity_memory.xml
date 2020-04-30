@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey"
+    tools:context=".MemoryActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/_eventToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:elevation="5dp">
+
+        <ImageView
+            android:id="@+id/_backBtn"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_back"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Memories"
+            android:textSize="28sp"
+            android:layout_gravity="center"
+            android:fontFamily="cursive"
+            android:textColor="@color/lightpurple"/>
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/_memoryTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/white"
+        android:layout_below="@+id/_eventToolbar">
+
+        <TextView
+            android:id="@+id/_textTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Memory Title"
+            android:textSize="16sp"
+            android:textColor="@color/lightpurple"/>
+
+        <EditText
+            android:id="@+id/_txtMemoryTitle"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/_textTitle"
+            android:textSize="18sp"
+            android:hint="Title"
+            android:backgroundTint="@color/transparent"/>
+
+        <ImageView
+            android:id="@+id/_memoryImage"
+            android:layout_width="410dp"
+            android:layout_height="200dp"
+            android:layout_below="@id/_txtMemoryTitle"
+            android:elevation="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/_txtMemoryTitle"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="95dp"
+            android:text="Tap here to upload a photo" />
+
+        <TextView
+            android:id="@+id/_memoryDateTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/_memoryImage"
+            android:text="Date"
+            android:textColor="@color/lightpurple"
+            android:layout_marginTop="3dp"
+            android:textSize="16sp"/>
+
+        <EditText
+            android:id="@+id/_memoryDate"
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/_memoryDateTitle"
+            android:inputType="none"
+            android:textSize="18sp"
+            android:text="8.12.1997"
+            android:hint="Memory Date"
+            android:backgroundTint="@color/transparent"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/_memoryInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="10dp"
+        android:layout_below="@+id/_memoryTitle"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/_memoryTypeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Memory Type"
+            android:textColor="@color/lightpurple"
+            android:textSize="16sp"/>
+
+        <Spinner
+            android:id="@+id/_spinnerMemoryType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/_memoryTypeTitle"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/_memoryExtras"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_below="@+id/_memoryInfo"
+        android:layout_marginTop="5dp"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/_memoryNotesTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notes"
+            android:textColor="@color/lightpurple"
+            android:textSize="16sp"/>
+
+        <EditText
+            android:id="@+id/_memoryNotes"
+            android:layout_width="410dp"
+            android:layout_height="wrap_content"
+            android:hint="Add a description"
+            android:backgroundTint="@color/transparent"
+            android:layout_below="@+id/_memoryNotesTitle"
+            android:textSize="18sp"/>
+
+        <Button
+            android:id="@+id/_btnConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:background="@drawable/button_gradient"
+            android:text="Confirm"
+            android:layout_below="@+id/_memoryNotes"
+            android:layout_alignParentEnd="true"
+            android:elevation="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

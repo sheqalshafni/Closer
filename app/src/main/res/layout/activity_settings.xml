@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey"
+    tools:context=".SettingsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/_settingsToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:elevation="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:textSize="28sp"
+            android:textColor="@color/lightpurple"
+            android:layout_gravity="center"
+            android:fontFamily="cursive"/>
+
+        <ImageView
+            android:id="@+id/_settingsBtnBack"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_back"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ImageView
+        android:id="@+id/_appLogo"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/_settingsToolbar"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/ic_main_logo"
+        android:tint="@color/lightpurple"/>
+
+    <TextView
+        android:id="@+id/_appName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Closer"
+        android:fontFamily="cursive"
+        android:textSize="12sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/_appLogo"/>
+
+    <TextView
+        android:id="@+id/_appCopyright"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="\u00a9 Copyright 2020"
+        android:textSize="9sp"
+        android:layout_below="@id/_appName"
+        android:layout_centerHorizontal="true"/>
+
+    <View
+        android:id="@+id/_namePlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:layout_below="@+id/_appLogo"
+        android:layout_marginTop="50dp"
+        android:background="@color/white"/>
+
+    <ImageView
+        android:layout_width="18sp"
+        android:layout_height="18sp"
+        android:layout_below="@+id/_appLogo"
+        android:tint="@color/lightpurple"
+        android:src="@drawable/ic_user_outline"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="75dp"/>
+
+    <TextView
+        android:id="@+id/_btnAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Account"
+        android:textSize="18sp"
+        android:layout_below="@+id/_appLogo"
+        android:layout_marginTop="72dp"
+        android:layout_marginStart="70dp"/>
+
+    <View
+        android:id="@+id/_namePlaceholderLine"
+        android:layout_width="350dp"
+        android:layout_alignParentEnd="true"
+        android:layout_height="1dp"
+        android:layout_marginTop="110dp"
+        android:layout_below="@+id/_appLogo"
+        android:background="@color/grey"/>
+
+    <ImageView
+        android:layout_width="18sp"
+        android:layout_height="18sp"
+        android:layout_below="@+id/_appLogo"
+        android:tint="@color/lightpurple"
+        android:src="@drawable/ic_notification"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="130dp"/>
+
+    <TextView
+        android:id="@+id/_btnNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Notifications"
+        android:textSize="18sp"
+        android:layout_below="@+id/_appLogo"
+        android:layout_marginTop="127dp"
+        android:layout_marginStart="70dp"/>
+
+    <View
+        android:id="@+id/_emailPlaceholderLine"
+        android:layout_width="350dp"
+        android:layout_alignParentEnd="true"
+        android:layout_height="1dp"
+        android:layout_marginTop="170dp"
+        android:layout_below="@+id/_appLogo"
+        android:background="@color/grey"/>
+
+    <ImageView
+        android:layout_width="18sp"
+        android:layout_height="18sp"
+        android:layout_below="@+id/_appLogo"
+        android:tint="@color/lightpurple"
+        android:src="@drawable/ic_info"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="194dp"/>
+
+    <TextView
+        android:id="@+id/_btnAbout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="About"
+        android:textSize="18sp"
+        android:layout_below="@+id/_appLogo"
+        android:layout_marginTop="190dp"
+        android:layout_marginStart="70dp"/>
+
+    <View
+        android:id="@+id/_partnerKeyPlaceholderLine"
+        android:layout_width="350dp"
+        android:layout_alignParentEnd="true"
+        android:layout_height="1dp"
+        android:layout_marginTop="230dp"
+        android:layout_below="@+id/_appLogo"
+        android:background="@color/grey"/>
+
+    <ImageView
+        android:layout_width="18sp"
+        android:layout_height="18sp"
+        android:layout_below="@+id/_appLogo"
+        android:tint="@color/lightpurple"
+        android:src="@drawable/ic_privacy"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="249dp"/>
+
+    <TextView
+        android:id="@+id/_btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:textSize="18sp"
+        android:layout_below="@+id/_appLogo"
+        android:layout_marginTop="245dp"
+        android:layout_marginStart="70dp"/>
+
+</RelativeLayout>

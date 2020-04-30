@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/_fabMenuProfile"
+        android:icon="@drawable/ic_user"
+        android:title="Profile" />
+
+    <item
+        android:id="@+id/_fabMenuMemories"
+        android:icon="@drawable/ic_calendar"
+        android:title="Memories" />
+
+    <item
+        android:id="@+id/_fabMenuGallery"
+        android:icon="@drawable/ic_gallery"
+        android:title="Gallery" />
+
+
+    <item
+        android:id="@+id/_fabMenuSettings"
+        android:icon="@drawable/ic_settings"
+        android:title="Settings" />
+
+</menu>
