@@ -101,6 +101,8 @@
             android:textStyle="bold"
             android:padding="10dp"/>
 
+        <!--Might not need this-->
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/_eventRV"
             android:layout_width="match_parent"
