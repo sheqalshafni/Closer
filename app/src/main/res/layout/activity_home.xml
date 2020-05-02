@@ -27,6 +27,7 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+
     <RelativeLayout
         android:id="@+id/_topView"
         android:layout_width="wrap_content"
@@ -101,8 +102,6 @@
             android:textStyle="bold"
             android:padding="10dp"/>
 
-        <!--Might not need this-->
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/_eventRV"
             android:layout_width="match_parent"
@@ -111,6 +110,22 @@
             android:scrollbars="vertical"
             android:background="@color/grey"
             android:layout_below="@+id/_subTitle"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/_noConnectedPartner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grey"
+        android:layout_below="@+id/_toolbar">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="404: Partner not found"
+            android:layout_centerInParent="true"
+            android:textSize="12sp"/>
 
     </RelativeLayout>
 
