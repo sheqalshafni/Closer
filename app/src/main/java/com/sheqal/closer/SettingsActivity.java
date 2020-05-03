@@ -40,20 +40,12 @@ public class SettingsActivity extends AppCompatActivity {
         alertDialog.setMessage("Are you sure you want to logout?");
         alertDialog.setCancelable(true);
 
-        alertDialog.setPositiveButton(Html.fromHtml("<font color='#00000'>Yes</font>"), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent _logout = new Intent(SettingsActivity.this, LoginActivity.class);
-                startActivity(_logout);
-            }
+        alertDialog.setPositiveButton(Html.fromHtml("<font color='#00000'>Yes</font>"), (dialog, which) -> {
+            Intent _logout = new Intent(SettingsActivity.this, LoginActivity.class);
+            startActivity(_logout);
         });
 
-        alertDialog.setNegativeButton(Html.fromHtml("<font color='#00000'>No</font>"), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        alertDialog.setNegativeButton(Html.fromHtml("<font color='#00000'>No</font>"), (dialog, which) -> dialog.cancel());
 
         AlertDialog dialog = alertDialog.create();
         dialog.show();

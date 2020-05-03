@@ -91,6 +91,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/_topView"
         android:layout_centerHorizontal="true"
+        android:paddingBottom="5dp"
         android:background="@color/white">
 
         <TextView
@@ -102,14 +103,47 @@
             android:textStyle="bold"
             android:padding="10dp"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/_eventRV"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="4dp"
-            android:scrollbars="vertical"
-            android:background="@color/grey"
-            android:layout_below="@+id/_subTitle"/>
+        <TextView
+            android:id="@+id/_anniversary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/_subTitle"
+            android:text="Anniversary"
+            android:textSize="20sp"
+            android:layout_marginStart="20dp"/>
+
+        <TextView
+            android:id="@+id/_anniversaryRemainingDays"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="XX"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginStart="20dp"
+            android:layout_below="@id/_anniversary"/>
+
+        <TextView
+            android:id="@+id/_anniversaryTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="userTitle"
+            android:textSize="12sp"
+            android:layout_below="@id/_subTitle"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"/>
+
+        <TextView
+            android:id="@+id/_anniversaryOriginalDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/_anniversaryTitle"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
+            android:text="originalDate"
+            android:textAlignment="center"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
@@ -117,15 +151,17 @@
         android:id="@+id/_noConnectedPartner"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/_toolbar"
+        android:layout_marginTop="27dp"
         android:background="@color/grey"
-        android:layout_below="@+id/_toolbar">
+        android:visibility="invisible">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="404: Partner not found"
             android:layout_centerInParent="true"
-            android:textSize="12sp"/>
+            android:text="404: Partner not found"
+            android:textSize="12sp" />
 
     </RelativeLayout>
 
