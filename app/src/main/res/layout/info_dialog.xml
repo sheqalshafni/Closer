@@ -45,7 +45,7 @@
         android:layout_below="@+id/_name"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="25dp"
-        android:textColor="@color/white"
+        android:textColor="@color/lightpurple"
         android:text="XXXXXX"
         app:qb_backgroundColor="#00FFFFFF"
         app:qb_strokeWidth="3"
