@@ -104,7 +104,9 @@ public class LoginActivity extends AppCompatActivity {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, "Sign in success", Toast.LENGTH_SHORT).show();
+                Intent _homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(_homeIntent);
+                finish();
             }
         });
 

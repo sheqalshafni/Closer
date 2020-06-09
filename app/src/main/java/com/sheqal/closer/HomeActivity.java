@@ -4,9 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.annotation.BinderThread;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.joaquimley.faboptions.FabOptions;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -15,6 +20,11 @@ public class HomeActivity extends AppCompatActivity {
 
     @BindView(R.id._fabMenu)
     FabOptions fabMenu;
+    @BindView(R.id._eventRV)
+    RecyclerView eventRV;
+
+    RecyclerView.Adapter mAdapter;
+    RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +34,7 @@ public class HomeActivity extends AppCompatActivity {
 
         fabMenu.setButtonsMenu(R.menu.fab_menu);
         _fabMenu();
+        _eventItem();
 
     }
 
@@ -51,6 +62,18 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void _eventItem(){
+        ArrayList<EventItem> eventItem = new ArrayList<>();
+        eventItem.add(new EventItem("Anniversary", "501" + " days left", "3rd Anniversary", "12.3.45"));
+        eventItem.add(new EventItem("Anniversary", "501" + " days left", "3rd Anniversary", "12.3.45"));
+        eventItem.add(new EventItem("Anniversary", "501" + " days left", "3rd Anniversary", "12.3.45"));
+        mLayoutManager = new LinearLayoutManager(this);
+        mAdapter = new EventAdapter(eventItem);
+
+        eventRV.setLayoutManager(mLayoutManager);
+        eventRV.setAdapter(mAdapter);
     }
 
 }
