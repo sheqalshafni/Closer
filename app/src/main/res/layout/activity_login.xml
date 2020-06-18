@@ -13,9 +13,9 @@
         android:layout_height="64dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="150dp"
+        android:contentDescription="mainlogo"
         android:src="@drawable/ic_main_logo"
-        android:tint="@color/white"
-        android:contentDescription="mainlogo" />
+        android:tint="@color/white" />
 
     <TextView
         android:id="@+id/_title"
@@ -36,9 +36,11 @@
         android:layout_below="@+id/_title"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
-        android:textSize="12sp"
+        android:text="@string/app_info"
         android:textColor="@color/white"
-        android:text="@string/app_info"/>
+        android:textSize="12sp" />
+
+
 
     <EditText
         android:id="@+id/_email"
@@ -47,17 +49,18 @@
         android:layout_below="@id/_subtitle"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="300dp"
-        android:textSize="15sp"
-        android:textColor="@color/white"
-        android:hint="@string/email"
-        android:maxLines="1"
         android:backgroundTint="@color/white"
         android:drawableEnd="@drawable/ic_email"
         android:drawableTint="@color/white"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:maxLines="1"
+        android:paddingStart="5dp"
+        android:paddingEnd="10dp"
+        android:textColor="@color/white"
         android:textColorHint="@android:color/tertiary_text_light"
         android:textColorLink="@color/white"
-        android:paddingStart="5dp"
-        android:paddingEnd="10dp"/>
+        android:textSize="15sp" />
 
     <EditText
         android:id="@+id/_password"
@@ -70,8 +73,8 @@
         android:drawableEnd="@drawable/ic_password"
         android:drawableTint="@color/white"
         android:hint="@string/password"
-        android:maxLines="1"
         android:inputType="textPassword"
+        android:maxLines="1"
         android:paddingStart="5dp"
         android:paddingEnd="10dp"
         android:textColor="@color/white"
@@ -79,37 +82,32 @@
         android:textColorLink="@color/white"
         android:textSize="15sp" />
 
-    <com.manojbhadane.QButton
-        android:id="@+id/_btnSignUp"
-        android:layout_width="150dp"
-        android:layout_height="40dp"
-        android:layout_below="@id/_password"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="30dp"
-        android:textColor="@color/white"
-        android:text="@string/sign_up"
-        app:qb_backgroundColor="#00FFFFFF"
-        app:qb_strokeWidth="3"
-        app:qb_strokeColor="@color/white"
-        app:qb_radius="10"
-        android:textAllCaps="false"
-        android:textSize="15sp" />
 
     <com.manojbhadane.QButton
         android:id="@+id/_btnSignIn"
-        android:layout_width="150dp"
+        android:layout_width="350dp"
         android:layout_height="40dp"
-        android:text="@string/sign_in"
-        android:textSize="15sp"
-        android:layout_marginTop="30dp"
         android:layout_below="@id/_password"
-        android:layout_alignParentEnd="true"
-        android:textColor="@color/white"
-        app:qb_backgroundColor="#00FFFFFF"
-        app:qb_strokeWidth="3"
-        app:qb_strokeColor="@color/white"
-        app:qb_radius="10"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="40dp"
+        android:text="@string/sign_in"
         android:textAllCaps="false"
-        android:layout_marginEnd="40dp"/>
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:qb_backgroundColor="#00FFFFFF"
+        app:qb_radius="10"
+        app:qb_strokeColor="@color/white"
+        app:qb_strokeWidth="3" />
+
+    <TextView
+        android:id="@+id/_btnSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Don't have an account? Sign up here."
+        android:textColor="@color/white"
+        android:layout_below="@id/_btnSignIn"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>
