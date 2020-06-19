@@ -51,14 +51,6 @@ import butterknife.Optional;
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "";
-    @BindView(R.id._btnSignIn)
-    QButton btnSignIn;
-    @BindView(R.id._btnSignUp)
-    TextView btnSignUp;
-    @BindView(R.id._email)
-    EditText Email;
-    @BindView(R.id._password)
-    EditText Password;
 
     private Dialog loginDialog;
     private FirebaseAuth mAuth;
@@ -69,6 +61,16 @@ public class LoginActivity extends AppCompatActivity {
     int count = 0;
 
     String register;
+
+    @BindView(R.id._btnSignIn)
+    QButton btnSignIn;
+    @BindView(R.id._btnSignUp)
+    TextView btnSignUp;
+    @BindView(R.id._email)
+    EditText Email;
+    @BindView(R.id._password)
+    EditText Password;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
