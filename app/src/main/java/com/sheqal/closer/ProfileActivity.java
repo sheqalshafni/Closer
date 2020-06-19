@@ -58,15 +58,8 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void _loadUserData(){
-        if (mUser != null) {
-            db.collection("users").get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-                        }
-                    })
-        }
+
     }
 
 }
