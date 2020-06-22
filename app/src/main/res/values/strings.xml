@@ -15,4 +15,5 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="name">Name</string>
+    <string name="PartnerConnection">Its all alone in here. \n Head over to your profile to connect with your partner!</string>
 </resources>

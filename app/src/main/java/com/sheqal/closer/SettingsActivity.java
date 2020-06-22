@@ -3,25 +3,36 @@ package com.sheqal.closer;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.sheqal.closer.ConnectingProcess.AddPartnerActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    private static final String TAG = "SettingsActivity";
+
+    private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
+
+    String Key;
+
     @BindView(R.id._btnLogout)
     TextView btnLogout;
     @BindView(R.id._settingsBtnBack)
     ImageView btnBack;
+    @BindView(R.id._btnAddPartner)
+    TextView btnAddPartner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,26 +40,46 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         ButterKnife.bind(this);
 
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+
         btnLogout.setOnClickListener(v -> logout());
         btnBack.setOnClickListener(v -> finish());
+        btnAddPartner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent _addPartner = new Intent(SettingsActivity.this, AddPartnerActivity.class);
+                startActivity(_addPartner);
+            }
+        });
 
     }
 
-    public void logout(){
+    private void logout() {
 
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setMessage("Are you sure you want to logout?");
-        alertDialog.setCancelable(true);
+        if (mUser != null) {
 
-        alertDialog.setPositiveButton(Html.fromHtml("<font color='#00000'>Yes</font>"), (dialog, which) -> {
-            Intent _logout = new Intent(SettingsActivity.this, LoginActivity.class);
-            startActivity(_logout);
-        });
+            try {
 
-        alertDialog.setNegativeButton(Html.fromHtml("<font color='#00000'>No</font>"), (dialog, which) -> dialog.cancel());
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+                alertDialog.setMessage("Are you sure you want to logout?");
+                alertDialog.setCancelable(true);
 
-        AlertDialog dialog = alertDialog.create();
-        dialog.show();
+                alertDialog.setPositiveButton(Html.fromHtml("<font color='#00000'>Yes</font>"), (dialog, which) -> {
+                    mAuth.signOut();
+                    Intent _logout = new Intent(SettingsActivity.this, LoginActivity.class);
+                    startActivity(_logout);
+                    finish();
+                });
 
+                alertDialog.setNegativeButton(Html.fromHtml("<font color='#00000'>No</font>"), (dialog, which) -> dialog.cancel());
+
+                AlertDialog dialog = alertDialog.create();
+                dialog.show();
+
+            } catch (Exception ex) {
+                Log.d(TAG, "logout: " + ex.toString());
+            }
+        }
     }
 }

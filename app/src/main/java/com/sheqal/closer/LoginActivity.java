@@ -81,10 +81,11 @@ public class LoginActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        customString();
-
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
+
+        //_checkUserSession();
+        _customString();
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,18 +97,52 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent _homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivity(_homeIntent);
-                finish();
+        btnSignIn.setOnClickListener(v -> {
+
+            ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
+            progressDialog.setMessage("Signing in");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+
+            if (Email.getText().toString().equals("") && Password.getText().toString().equals("")) {
+                Toast.makeText(LoginActivity.this, "Please fill in your credentials", Toast.LENGTH_SHORT).show();
+            } else {
+                mAuth.signInWithEmailAndPassword(Email.getText().toString(), Password.getText().toString())
+                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    progressDialog.dismiss();
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    _homeIntent();
+                                } else {
+                                    progressDialog.dismiss();
+                                    Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                    Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
             }
         });
 
     }
 
-    private void customString(){
+    private void _homeIntent() {
+        Intent _homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
+        startActivity(_homeIntent);
+        finish();
+    }
+
+    private void _checkUserSession() {
+        if (mUser != null) {
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    private void _customString() {
         register = "Don't have an account? Sign up here";
 
         SpannableString ss = new SpannableString(register);

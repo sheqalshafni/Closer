@@ -102,15 +102,15 @@
         android:layout_height="18sp"
         android:layout_below="@+id/_appLogo"
         android:tint="@color/lightpurple"
-        android:src="@drawable/ic_notification"
+        android:src="@drawable/ic_addpartner"
         android:layout_marginStart="20dp"
         android:layout_marginTop="130dp"/>
 
     <TextView
-        android:id="@+id/_btnNotification"
+        android:id="@+id/_btnAddPartner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Notifications"
+        android:text="Add partner"
         android:textSize="18sp"
         android:layout_below="@+id/_appLogo"
         android:layout_marginTop="127dp"
