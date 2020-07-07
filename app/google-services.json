@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "87721573805",
+    "firebase_url": "https://closer-4e6d0.firebaseio.com",
+    "project_id": "closer-4e6d0",
+    "storage_bucket": "closer-4e6d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:87721573805:android:c7ed140dff68644e59f524",
+        "android_client_info": {
+          "package_name": "com.sheqal.closer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "87721573805-45apjoq4l6n2v7huiaikprra05ec6j26.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBgvU_OApbVt9Um-Lkv8Hx9hKMauof-nQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "87721573805-45apjoq4l6n2v7huiaikprra05ec6j26.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

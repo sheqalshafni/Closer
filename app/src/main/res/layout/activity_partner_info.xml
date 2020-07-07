@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ConnectingProcess.PartnerInfoActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/_detailsToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:elevation="5dp">
+
+        <ImageView
+            android:id="@+id/_partnerInfoBtnBack"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Details"
+            android:textColor="@color/lightpurple"
+            android:textSize="28sp"
+            android:fontFamily="cursive"
+            android:layout_gravity="center"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/_userImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/_detailsToolbar"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/_partnerInfoImage"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/ic_launcher_round"/>
+
+    </RelativeLayout>
+
+
+
+    <View
+        android:id="@+id/_namePlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_below="@+id/_userImage"
+        android:layout_marginTop="50dp"
+        android:background="@color/white"/>
+
+    <ImageView
+        android:layout_width="18sp"
+        android:layout_height="18sp"
+        android:layout_below="@+id/_userImage"
+        android:tint="@color/lightpurple"
+        android:src="@drawable/ic_user_outline"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="75dp"/>
+
+    <TextView
+        android:id="@+id/_partnerInfoName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="XXXXXXXXXXX"
+        android:textSize="18sp"
+        android:layout_below="@+id/_userImage"
+        android:layout_marginTop="72dp"
+        android:layout_marginStart="70dp"/>
+
+    <View
+        android:id="@+id/_namePlaceholderLine"
+        android:layout_width="350dp"
+        android:layout_alignParentEnd="true"
+        android:layout_height="1dp"
+        android:layout_marginTop="110dp"
+        android:layout_below="@+id/_userImage"
+        android:background="@color/grey"/>
+
+    <ImageView
+        android:layout_width="18sp"
+        android:layout_height="18sp"
+        android:layout_below="@+id/_userImage"
+        android:tint="@color/lightpurple"
+        android:src="@drawable/ic_mail"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="130dp"/>
+
+    <TextView
+        android:id="@+id/_partnerInfoEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="XXXXXXXXXXX"
+        android:textSize="18sp"
+        android:layout_below="@+id/_userImage"
+        android:layout_marginTop="127dp"
+        android:layout_marginStart="70dp"/>
+
+    <View
+        android:id="@+id/_emailPlaceholderLine"
+        android:layout_width="350dp"
+        android:layout_alignParentEnd="true"
+        android:layout_height="1dp"
+        android:layout_marginTop="170dp"
+        android:layout_below="@+id/_userImage"
+        android:background="@color/grey"/>
+
+    <ImageView
+        android:layout_width="18sp"
+        android:layout_height="18sp"
+        android:layout_below="@+id/_userImage"
+        android:tint="@color/lightpurple"
+        android:src="@drawable/ic_key"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="193dp"/>
+
+    <TextView
+        android:id="@+id/_partnerInfoKey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="XXXXXXXXXXX"
+        android:textSize="17sp"
+        android:layout_below="@+id/_userImage"
+        android:layout_marginTop="190dp"
+        android:layout_marginStart="70dp"/>
+
+    <Button
+        android:id="@+id/_btnConfirm"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/_namePlaceholder"
+        android:layout_centerHorizontal="true"
+        android:text="Connect"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:background="@drawable/custom_button"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"/>
+
+</RelativeLayout>

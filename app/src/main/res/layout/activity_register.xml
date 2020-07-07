@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/_registerToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:elevation="5dp">
+
+        <ImageView
+            android:id="@+id/_registerBtnBack"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign Up"
+            android:textColor="@color/lightpurple"
+            android:textSize="28sp"
+            android:fontFamily="cursive"
+            android:layout_gravity="center"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/_profileImage"
+        android:layout_marginTop="30dp"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_below="@id/_registerToolbar"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_camera" />
+
+    <EditText
+        android:id="@+id/_name"
+        android:layout_width="350dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/_profileImage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textSize="15sp"
+        android:inputType="text"
+        android:hint="Name"
+        android:drawableEnd="@drawable/ic_name"
+        android:drawableTint="@color/lightpurple"
+        android:maxLines="1"
+        android:textColorHint="@android:color/tertiary_text_light"
+        android:paddingStart="5dp"
+        android:paddingEnd="10dp"/>
+
+    <EditText
+        android:id="@+id/_userEmail"
+        android:layout_width="350dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"
+        android:inputType="textEmailAddress"
+        android:hint="Email"
+        android:drawableEnd="@drawable/ic_email"
+        android:drawableTint="@color/lightpurple"
+        android:maxLines="1"
+        android:textColorHint="@android:color/tertiary_text_light"
+        android:paddingStart="5dp"
+        android:paddingEnd="10dp"/>
+
+    <EditText
+        android:id="@+id/_password"
+        android:layout_width="350dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/_userEmail"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textSize="15sp"
+        android:inputType="textPassword"
+        android:hint="Password"
+        android:maxLines="1"
+        android:drawableEnd="@drawable/ic_password"
+        android:drawableTint="@color/lightpurple"
+        android:textColorHint="@android:color/tertiary_text_light"
+        android:paddingStart="5dp"
+        android:paddingEnd="10dp"/>
+
+    <com.manojbhadane.QButton
+        android:id="@+id/_randomPartnerKey"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/_password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:textColor="@color/lightpurple"
+        android:text="XXXXXX"
+        app:qb_backgroundColor="#00FFFFFF"
+        app:qb_strokeWidth="3"
+        app:qb_strokeColor="@color/colorPrimaryDark"
+        app:qb_radius="10"
+        android:textAllCaps="false"
+        android:textSize="15sp"
+        android:clickable="false"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/_randomPartnerKey"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="Please enter the Key given above. \nThis key will be used to connect with your partner"
+        android:textAlignment="center"
+        android:textSize="9sp"/>
+
+    <EditText
+        android:id="@+id/_partnerKey"
+        android:layout_width="350dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/_randomPartnerKey"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp"
+        android:drawableEnd="@drawable/ic_partnerkey"
+        android:drawableTint="@color/lightpurple"
+        android:hint="Code"
+        android:lines="1"
+        android:maxLines="1"
+        android:paddingStart="5dp"
+        android:paddingEnd="10dp"
+        android:singleLine="true"
+        android:textColorHint="@android:color/tertiary_text_light"
+        android:textSize="15sp" />
+
+    <Button
+        android:id="@+id/_btnConfirm"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/_partnerKey"
+        android:layout_marginTop="20dp"
+        android:text="Confirm"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:background="@drawable/custom_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"/>
+
+</RelativeLayout>
