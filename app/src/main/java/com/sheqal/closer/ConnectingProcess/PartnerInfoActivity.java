@@ -58,12 +58,7 @@ public class PartnerInfoActivity extends AppCompatActivity {
 
         _btnBack.setOnClickListener(v -> finish());
 
-        _btnConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                _promptBiometric();
-            }
-        });
+        _btnConfirm.setOnClickListener(v -> _promptBiometric());
 
     }
 
