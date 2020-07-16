@@ -116,6 +116,18 @@
         android:layout_marginTop="127dp"
         android:layout_marginStart="70dp"/>
 
+    <TextView
+        android:id="@+id/_btnAddPartnerUnavailable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add partner"
+        android:textSize="18sp"
+        android:textColor="#DCDCDC"
+        android:visibility="invisible"
+        android:layout_below="@+id/_appLogo"
+        android:layout_marginTop="127dp"
+        android:layout_marginStart="70dp"/>
+
     <View
         android:id="@+id/_emailPlaceholderLine"
         android:layout_width="350dp"

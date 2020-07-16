@@ -34,11 +34,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.manojbhadane.QButton;
+import com.sheqal.closer.NoConnectedPartner.HomeActivityNoPartner;
 
 import java.util.Objects;
 import java.util.Random;
@@ -48,7 +54,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Optional;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
 
     private static final String TAG = "";
 
@@ -56,6 +62,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser mUser;
+    private DocumentReference mRef;
+    private FirebaseFirestore db;
 
     boolean isVerified;
     int count = 0;
@@ -83,18 +91,16 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
 
-        //_checkUserSession();
+        _checkUserSession();
         _customString();
 
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnSignUp.setOnClickListener(v -> {
 
-                Intent _registerActivity = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(_registerActivity);
+            Intent _registerActivity = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(_registerActivity);
 
-            }
         });
 
         btnSignIn.setOnClickListener(v -> {
@@ -108,19 +114,16 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Please fill in your credentials", Toast.LENGTH_SHORT).show();
             } else {
                 mAuth.signInWithEmailAndPassword(Email.getText().toString(), Password.getText().toString())
-                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    progressDialog.dismiss();
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    _homeIntent();
-                                } else {
-                                    progressDialog.dismiss();
-                                    Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                    Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-                                }
+                        .addOnCompleteListener(LoginActivity.this, task -> {
+                            if (task.isSuccessful()) {
+                                progressDialog.dismiss();
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                _homeIntent();
+                            } else {
+                                progressDialog.dismiss();
+                                Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
                             }
                         });
             }
@@ -134,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-    private void _checkUserSession() {
+    private void _checkUserSession(){
         if (mUser != null) {
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
@@ -151,4 +154,59 @@ public class LoginActivity extends AppCompatActivity {
         btnSignUp.setText(ss);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseAuth.getInstance().addAuthStateListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FirebaseAuth.getInstance().removeAuthStateListener(this);
+    }
+
+    @Override
+    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+        if (mUser != null) {
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(intent);
+            finish();
+
+            try{
+
+                mRef = db.collection("users").document(mUser.getUid());
+
+                mRef.get()
+                        .addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot.exists()) {
+                                String connectedPartner = documentSnapshot.getString("ConnectedPartner");
+
+                                if (connectedPartner.equals("Unavailable") || connectedPartner == null){
+                                    //update ui
+
+                                    Intent _noConnectedPartner = new Intent(LoginActivity.this, HomeActivityNoPartner.class);
+                                    startActivity(_noConnectedPartner);
+
+                                }else {
+                                    //update ui
+
+                                    Intent _hasPartner = new Intent(LoginActivity.this, HomeActivity.class);
+                                    startActivity(_hasPartner);
+                                }
+
+                            }
+                        })
+                        .addOnFailureListener(e -> {
+                            Log.d(TAG, "onFailure: " + e.toString());
+                        });
+
+            }catch (Exception ex){
+                Log.d(TAG, "onAuthStateChanged: Failed to get info " + ex.toString());
+            }
+
+        }
+
+    }
 }

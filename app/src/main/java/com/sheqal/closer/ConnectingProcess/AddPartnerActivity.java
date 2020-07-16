@@ -36,6 +36,7 @@ public class AddPartnerActivity extends AppCompatActivity {
 
     private static final String TAG = "AddPartnerActivity";
 
+    //Firebase init
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private FirebaseFirestore db;
@@ -43,6 +44,9 @@ public class AddPartnerActivity extends AppCompatActivity {
 
     //Current user info
     private String _currentUserName, _currentUserEmail, _currentUserPartnerKey, _currentUserPhotoURL, _currentUserID, _currentUserConnectedPartner;
+
+    //Partner B info
+    private String partnerB_Name, partnerB_Email, partnerB_PartnerKey, partnerB_PhotoURL, partnerB_UID, partnerB_connectedPartner;
 
     @BindView(R.id._addPartnerBtnBack)
     ImageView _btnBack;
@@ -62,23 +66,15 @@ public class AddPartnerActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         mRef = db.collection("users");
 
-        _btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        _getUserLoggedOnData();
 
-        btnConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                connectPartner();
-            }
-        });
+        _btnBack.setOnClickListener(v -> finish());
+
+        btnConfirm.setOnClickListener(v -> connectPartner());
 
     }
 
-    private void connectPartner() {
+    private void connectPartner()   {
 
         if (mUser != null) {
 
@@ -87,11 +83,10 @@ public class AddPartnerActivity extends AppCompatActivity {
             progressDialog.setCancelable(false);
 
             String getKey = partnerKey.getText().toString();
-            int keyLength = getKey.length();
 
             if (partnerKey.getText().toString().equals("")) {
                 Toast.makeText(AddPartnerActivity.this, "Invalid partner key", Toast.LENGTH_SHORT).show();
-            } else {
+            }else {
                 progressDialog.show();
 
                 //Find user equal to partner key
@@ -106,83 +101,91 @@ public class AddPartnerActivity extends AppCompatActivity {
                                 String key;
                                 key = documentSnapshot.getString("PartnerKey");
                                 if (partnerKey.getText().toString().equals(key)) {
-                                    String a, b, c, d, f;
-                                    a = documentSnapshot.getString("Name");
-                                    b = documentSnapshot.getString("ProfilePhotoURL");
-                                    c = documentSnapshot.getString("userID");
-                                    d = documentSnapshot.getString("Email");
-                                    f = documentSnapshot.getString("PartnerKey");
 
-                                    Log.d(TAG, "retrieved name " + a + " img url " + b + " userid " + c + " email " + d);
+                                    /*Get Partner B info if "Partner Key" input
+                                    is equal to Partner B "Partner Key"*/
 
-                                    _getUserLoggedOnData();
+                                    partnerB_Name = documentSnapshot.getString("Name");
+                                    partnerB_PhotoURL = documentSnapshot.getString("ProfilePhotoURL");
+                                    partnerB_UID = documentSnapshot.getString("userID");
+                                    partnerB_Email = documentSnapshot.getString("Email");
+                                    partnerB_PartnerKey = documentSnapshot.getString("PartnerKey");
+                                    partnerB_connectedPartner = documentSnapshot.getString("ConnectedPartner");
+
+                                    Log.d(TAG, "retrieved name " + partnerB_Name + " img url " + partnerB_PhotoURL + " userid " + partnerB_UID + " email " + partnerB_Email);
 
                                     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                                     try {
 
-                                        if (!c.equals("") || c != null) {
+                                        DocumentReference mRef = db.collection("users").document(partnerB_UID);
 
-                                            DocumentReference mRef = db.collection("users").document(c);
+                                        mRef.get()
+                                                .addOnSuccessListener(documentSnapshot1 -> {
+                                                    if (documentSnapshot1.exists()) {
 
-                                            mRef.get()
-                                                    .addOnSuccessListener(documentSnapshot1 -> {
-                                                        if (documentSnapshot1.exists()) {
-                                                            String name = documentSnapshot1.getString("Name");
-                                                            String email = documentSnapshot1.getString("Email");
-                                                            String partnerKey = documentSnapshot1.getString("PartnerKey");
-                                                            String profilePhoto = documentSnapshot1.getString("ProfilePhotoURL");
-                                                            String connectedPartnerName = documentSnapshot1.getString("ConnectedPartner");
-                                                            String userID = documentSnapshot1.getString("userID");
+                                                        /* Get Partner B info */
 
-                                                            Map<String, Object> user = new HashMap<>();
-                                                            user.put("Name", a);
-                                                            user.put("Email", d);
-                                                            user.put("PartnerKey", f);
-                                                            user.put("ProfilePhotoURL", b);
-                                                            user.put("ConnectedPartner", _currentUserName);
-                                                            user.put("userID", userID);
+                                                        String name = documentSnapshot1.getString("Name");
+                                                        String email = documentSnapshot1.getString("Email");
+                                                        String partnerKey = documentSnapshot1.getString("PartnerKey");
+                                                        String profilePhoto = documentSnapshot1.getString("ProfilePhotoURL");
+                                                        String connectedPartnerName = documentSnapshot1.getString("ConnectedPartner");
+                                                        String userID = documentSnapshot1.getString("userID");
 
-                                                            Intent passData = new Intent(AddPartnerActivity.this, PartnerInfoActivity.class);
-                                                            passData.putExtra("name", name);
-                                                            passData.putExtra("email", email);
-                                                            passData.putExtra("key", partnerKey);
-                                                            passData.putExtra("url", profilePhoto);
-                                                            startActivity(passData);
+                                                        Map<String, Object> user = new HashMap<>();
+                                                        user.put("Name", partnerB_Name);
+                                                        user.put("Email", partnerB_Email);
+                                                        user.put("PartnerKey", partnerB_PartnerKey);
+                                                        user.put("ProfilePhotoURL", partnerB_PhotoURL);
+                                                        user.put("ConnectedPartner", _currentUserName);
+                                                        user.put("userID", userID);
 
-                                                            Log.d(TAG, "partner name " + _currentUserName);
+                                                        /* Send Partner B info to the next Activity */
 
-                                                            //Change partner to connected partner
-                                                            /*db.collection("users").document(c).set(user)
-                                                                    .addOnSuccessListener(aVoid -> {
-                                                                        Log.d(TAG, " Connection success " + _currentUserName + " + " + a);
+                                                        Intent passData = new Intent(AddPartnerActivity.this, PartnerInfoActivity.class);
 
-                                                                        FirebaseFirestore db1 = FirebaseFirestore.getInstance();
-                                                                        DocumentReference mRef1 = db1.collection("users").document(mUser.getUid());
+                                                        passData.putExtra("name", name);
+                                                        passData.putExtra("email", email);
+                                                        passData.putExtra("key", partnerKey);
+                                                        passData.putExtra("url", profilePhoto);
+                                                        passData.putExtra("userID", partnerB_UID);
+                                                        passData.putExtra("partner", partnerB_connectedPartner);
+                                                        startActivity(passData);
 
-                                                                        _getUserLoggedOnData();
+                                                        Log.d(TAG, "partner name " + _currentUserName);
 
-                                                                        Map<String, Object> user1 = new HashMap<>();
+                                                        _getUserLoggedOnData();
 
-                                                                        user1.put("Name", _currentUserName);
-                                                                        user1.put("Email", _currentUserEmail);
-                                                                        user1.put("PartnerKey", _currentUserPartnerKey);
-                                                                        user1.put("ProfilePhotoURL", _currentUserPhotoURL);
-                                                                        user1.put("ConnectedPartner", a);
-                                                                        user1.put("userID", _currentUserID);
+                                                        //Change partner to connected partner
+                                                        /*db.collection("users").document(c).set(user)
+                                                                .addOnSuccessListener(aVoid -> {
+                                                                    Log.d(TAG, " Connection success " + _currentUserName + " + " + a);
 
-                                                                        db1.collection("users").document(mUser.getUid()).set(user1)
-                                                                                .addOnSuccessListener(aVoid1 -> Log.d(TAG, "Connection success " + a + " + " + _currentUserName))
-                                                                                .addOnFailureListener(e -> Log.d(TAG, "connection failed " + e.toString()));
+                                                                    FirebaseFirestore db1 = FirebaseFirestore.getInstance();
+                                                                    DocumentReference mRef1 = db1.collection("users").document(mUser.getUid());
 
-                                                                    })
-                                                                    .addOnFailureListener(e -> Log.d(TAG, "onFailure: fail"));*/
+                                                                    _getUserLoggedOnData();
 
-                                                        }
-                                                    })
-                                                    .addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
+                                                                    Map<String, Object> user1 = new HashMap<>();
 
-                                        }
+                                                                    user1.put("Name", _currentUserName);
+                                                                    user1.put("Email", _currentUserEmail);
+                                                                    user1.put("PartnerKey", _currentUserPartnerKey);
+                                                                    user1.put("ProfilePhotoURL", _currentUserPhotoURL);
+                                                                    user1.put("ConnectedPartner", a);
+                                                                    user1.put("userID", _currentUserID);
+
+                                                                    db1.collection("users").document(mUser.getUid()).set(user1)
+                                                                            .addOnSuccessListener(aVoid1 -> Log.d(TAG, "Connection success " + a + " + " + _currentUserName))
+                                                                            .addOnFailureListener(e -> Log.d(TAG, "connection failed " + e.toString()));
+
+                                                                })
+                                                                .addOnFailureListener(e -> Log.d(TAG, "onFailure: fail"));*/
+
+                                                    }
+                                                })
+                                                .addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
 
                                     } catch (Exception ex) {
                                         Log.d(TAG, "User ID empty " + ex.toString());
@@ -198,6 +201,7 @@ public class AddPartnerActivity extends AppCompatActivity {
                     } else {
                         progressDialog.dismiss();
                         Log.d(TAG, " pairing fail");
+                        Toast.makeText(AddPartnerActivity.this, "Unable to pair. Check log", Toast.LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(e -> {
                     progressDialog.dismiss();
@@ -227,8 +231,8 @@ public class AddPartnerActivity extends AppCompatActivity {
                         _currentUserName = name;
                         _currentUserEmail = email;
                         _currentUserPartnerKey = partnerKey;
-                        _currentUserPhotoURL = profilePhoto;
-                        _currentUserConnectedPartner = connectedPartnerName;
+                        _currentUserPhotoURL = profilePhoto;_currentUserConnectedPartner = connectedPartnerName;
+
                         _currentUserID = userID;
                     }
                 })

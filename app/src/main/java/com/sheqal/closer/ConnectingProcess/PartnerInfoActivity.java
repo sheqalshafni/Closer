@@ -8,15 +8,21 @@ import androidx.core.content.ContextCompat;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.sheqal.closer.R;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executor;
 
 import butterknife.BindView;
@@ -27,11 +33,22 @@ public class PartnerInfoActivity extends AppCompatActivity {
 
     private static final String TAG = "PartnerInfoActivity";
 
-    private String name, email, partnerKey, url;
+    //Current user info
+    private String _currentUserName, _currentUserEmail, _currentUserPartnerKey, _currentUserPhotoURL, _currentUserID, _currentUserConnectedPartner;
 
+    //Partner B info
+    private String partnerB_Name, partnerB_Email, partnerB_partnerKey, partnerB_photoURL, partnerB_ID, partnerB_connectedPartner;
+
+    //Biometric init
     private Executor executor;
     private BiometricPrompt biometricPrompt;
     private BiometricPrompt.PromptInfo promptInfo;
+
+    //Firebase init
+    private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
+    private FirebaseFirestore db;
+    private CollectionReference mRef;
 
     @BindView(R.id._partnerInfoImage)
     CircleImageView _profileImage;
@@ -52,9 +69,15 @@ public class PartnerInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_partner_info);
         ButterKnife.bind(this);
 
+        mAuth = FirebaseAuth.getInstance();
+        mUser = mAuth.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
+        mRef = db.collection("users");
+
         _retrieveData();
         _checkBiometricAvailability();
         _checkBiometric();
+        _getUserLoggedOnData();
 
         _btnBack.setOnClickListener(v -> finish());
 
@@ -65,16 +88,19 @@ public class PartnerInfoActivity extends AppCompatActivity {
     private void _retrieveData() {
         Bundle getData = getIntent().getExtras();
         if (getData != null) {
-            name = getData.getString("name");
-            email = getData.getString("email");
-            partnerKey = getData.getString("key");
-            url = getData.getString("url");
+            
+            partnerB_Name = getData.getString("name");
+            partnerB_Email = getData.getString("email");
+            partnerB_partnerKey = getData.getString("key");
+            partnerB_photoURL = getData.getString("url");
+            partnerB_ID = getData.getString("userID");
+            partnerB_connectedPartner = getData.getString("partner");
 
-            _Name.setText(name);
-            _Email.setText(email);
-            _partnerKey.setText(partnerKey);
+            _Name.setText(partnerB_Name);
+            _Email.setText(partnerB_Email);
+            _partnerKey.setText(partnerB_partnerKey);
             Glide.with(PartnerInfoActivity.this)
-                    .load(url)
+                    .load(partnerB_photoURL)
                     .into(_profileImage);
 
         }
@@ -97,6 +123,43 @@ public class PartnerInfoActivity extends AppCompatActivity {
                 super.onAuthenticationSucceeded(result);
                 Toast.makeText(getApplicationContext(),
                         "Authentication succeeded!", Toast.LENGTH_SHORT).show();
+
+                Map<String, Object> user = new HashMap<>();
+                user.put("Name", partnerB_Name);
+                user.put("Email", partnerB_Email);
+                user.put("PartnerKey", partnerB_partnerKey);
+                user.put("ProfilePhotoURL", partnerB_photoURL);
+                user.put("ConnectedPartner", _currentUserName);
+                user.put("userID", partnerB_ID);
+
+                db.collection("users").document(partnerB_ID).set(user)
+                        .addOnSuccessListener(aVoid -> {
+                            Log.d(TAG, " Connection success " + _currentUserName + " + " + partnerB_Name);
+
+                            if(mUser!=null){
+
+                                FirebaseFirestore db1 = FirebaseFirestore.getInstance();
+                                DocumentReference mRef1 = db1.collection("users").document(mUser.getUid());
+
+                                Map<String, Object> user1 = new HashMap<>();
+
+                                user1.put("Name", _currentUserName);
+                                user1.put("Email", _currentUserEmail);
+                                user1.put("PartnerKey", _currentUserPartnerKey);
+                                user1.put("ProfilePhotoURL", _currentUserPhotoURL);
+                                user1.put("ConnectedPartner", partnerB_Name);
+                                user1.put("userID", _currentUserID);
+
+                                db1.collection("users").document(mUser.getUid()).set(user1)
+                                        .addOnSuccessListener(aVoid1 -> Log.d(TAG, "Connection success " + partnerB_Name + " + " + _currentUserName))
+                                        .addOnFailureListener(e -> Log.d(TAG, "connection failed " + e.toString()));
+                                
+                            }else {
+                                Log.d(TAG, "onAuthenticationSucceeded: failed to get current user data");
+                            }
+                        })
+                        .addOnFailureListener(e -> Log.d(TAG, "onFailure: fail"));
+
             }
 
             @Override
@@ -107,12 +170,9 @@ public class PartnerInfoActivity extends AppCompatActivity {
                         .show();
             }
         });
-
-
-
     }
 
-    private void _promptBiometric(){
+    private void _promptBiometric() {
         promptInfo = new BiometricPrompt.PromptInfo.Builder()
                 .setTitle("Biometric Confirmation")
                 .setNegativeButtonText("Cancel")
@@ -124,7 +184,7 @@ public class PartnerInfoActivity extends AppCompatActivity {
     private void _checkBiometricAvailability() {
 
         BiometricManager biometricManager = BiometricManager.from(this);
-        switch (biometricManager.canAuthenticate()){
+        switch (biometricManager.canAuthenticate()) {
             case BiometricManager.BIOMETRIC_SUCCESS:
                 Log.d("MY_APP_TAG", "App can authenticate using biometrics.");
                 break;
@@ -139,6 +199,32 @@ public class PartnerInfoActivity extends AppCompatActivity {
                         "any biometric credentials with their account.");
                 break;
         }
+
+    }
+
+    private void _getUserLoggedOnData() {
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference mRef = db.collection("users").document(mUser.getUid());
+
+        mRef.get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String name = documentSnapshot.getString("Name");
+                        String email = documentSnapshot.getString("Email");
+                        String partnerKey = documentSnapshot.getString("PartnerKey");
+                        String profilePhoto = documentSnapshot.getString("ProfilePhotoURL");
+                        String connectedPartnerName = documentSnapshot.getString("ConnectedPartner");
+                        String userID = documentSnapshot.getString("userID");
+                        _currentUserName = name;
+                        _currentUserEmail = email;
+                        _currentUserPartnerKey = partnerKey;
+                        _currentUserPhotoURL = profilePhoto;
+                        _currentUserConnectedPartner = connectedPartnerName;
+                        _currentUserID = userID;
+                    }
+                })
+                .addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
 
     }
 

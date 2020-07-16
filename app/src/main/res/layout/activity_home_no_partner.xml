@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NoConnectedPartner.HomeActivityNoPartner">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:elevation="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="cursive"
+            android:text="Closer"
+            android:textColor="@color/lightpurple"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/_noConnectedPartner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/_toolbar"
+        android:background="@color/white">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/_partnerNotFound"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_centerInParent="true"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="partnerNotFound.json"
+            app:lottie_loop="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/_partnerNotFound"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="25dp"
+            android:text="@string/PartnerConnection"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+    <com.joaquimley.faboptions.FabOptions
+        android:id="@+id/_fabMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        app:fab_color="@color/lightpurple"
+        app:background_color="@color/softpurple"/>
+
+</RelativeLayout>

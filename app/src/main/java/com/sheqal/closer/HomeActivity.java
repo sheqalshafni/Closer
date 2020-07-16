@@ -43,8 +43,6 @@ public class HomeActivity extends AppCompatActivity {
     FabOptions fabMenu;
     @BindView(R.id._eventRV)
     RecyclerView eventRV;
-    @BindView(R.id._noConnectedPartner)
-    RelativeLayout relativeLayout;
 
     RecyclerView.Adapter mAdapter;
     RecyclerView.LayoutManager mLayoutManager;
@@ -58,13 +56,12 @@ public class HomeActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
-        mRef = db.collection("users").document(mUser.getUid());
 
         fabMenu.setButtonsMenu(R.menu.fab_menu);
         _fabMenu();
         _eventItem();
 
-        _loadUserData();
+      //  _loadUserData();
     }
 
     public void _fabMenu(){
@@ -110,36 +107,31 @@ public class HomeActivity extends AppCompatActivity {
 
             try {
 
+                mRef = db.collection("users").document(mUser.getUid());
+
                 ProgressDialog progressDialog = new ProgressDialog(HomeActivity.this);
                 progressDialog.setMessage("Fetching data");
                 progressDialog.show();
 
                 mRef.get()
-                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                            @Override
-                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                if (documentSnapshot.exists()) {
-                                    progressDialog.dismiss();
-                                    String connectedPartner = documentSnapshot.getString("ConnectedPartner");
+                        .addOnSuccessListener(documentSnapshot -> {
+                            if (documentSnapshot.exists()) {
+                                progressDialog.dismiss();
+                                String connectedPartner = documentSnapshot.getString("ConnectedPartner");
 
-                                    if (!connectedPartner.equals("Unavailable")){
-                                        relativeLayout.setVisibility(View.INVISIBLE);
+                                if (!connectedPartner.equals("Unavailable")){
 
-                                        //show upcoming events
+                                    //show upcoming events
 
-                                    }else {
-                                        //update ui
-                                    }
-
+                                }else {
+                                    //update ui
                                 }
+
                             }
                         })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                progressDialog.dismiss();
-                                Log.d(TAG, "onFailure: " + e.toString());
-                            }
+                        .addOnFailureListener(e -> {
+                            progressDialog.dismiss();
+                            Log.d(TAG, "onFailure: " + e.toString());
                         });
             } catch (Exception ex) {
                 Log.d(TAG, "_loadUserData: " + ex.toString());
