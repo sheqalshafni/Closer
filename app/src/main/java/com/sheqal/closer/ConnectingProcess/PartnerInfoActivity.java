@@ -6,6 +6,7 @@ import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.sheqal.closer.HomeActivity;
 import com.sheqal.closer.R;
 
 import java.util.HashMap;
@@ -121,8 +123,6 @@ public class PartnerInfoActivity extends AppCompatActivity {
             @Override
             public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
-                Toast.makeText(getApplicationContext(),
-                        "Authentication succeeded!", Toast.LENGTH_SHORT).show();
 
                 Map<String, Object> user = new HashMap<>();
                 user.put("Name", partnerB_Name);
@@ -153,6 +153,9 @@ public class PartnerInfoActivity extends AppCompatActivity {
                                 db1.collection("users").document(mUser.getUid()).set(user1)
                                         .addOnSuccessListener(aVoid1 -> Log.d(TAG, "Connection success " + partnerB_Name + " + " + _currentUserName))
                                         .addOnFailureListener(e -> Log.d(TAG, "connection failed " + e.toString()));
+
+                                Intent _homeIntent = new Intent(PartnerInfoActivity.this, HomeActivity.class);
+                                startActivity(_homeIntent);
                                 
                             }else {
                                 Log.d(TAG, "onAuthenticationSucceeded: failed to get current user data");

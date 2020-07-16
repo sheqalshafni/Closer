@@ -1,6 +1,5 @@
-package com.sheqal.closer;
+package com.sheqal.closer.adapter;
 
-import android.util.EventLog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +7,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.sheqal.closer.EventItem;
+import com.sheqal.closer.R;
 
 import java.util.ArrayList;
 

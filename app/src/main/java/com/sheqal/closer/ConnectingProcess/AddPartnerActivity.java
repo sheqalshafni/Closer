@@ -67,14 +67,13 @@ public class AddPartnerActivity extends AppCompatActivity {
         mRef = db.collection("users");
 
         _getUserLoggedOnData();
-
         _btnBack.setOnClickListener(v -> finish());
 
         btnConfirm.setOnClickListener(v -> connectPartner());
 
     }
 
-    private void connectPartner()   {
+    private void connectPartner() {
 
         if (mUser != null) {
 
@@ -86,7 +85,11 @@ public class AddPartnerActivity extends AppCompatActivity {
 
             if (partnerKey.getText().toString().equals("")) {
                 Toast.makeText(AddPartnerActivity.this, "Invalid partner key", Toast.LENGTH_SHORT).show();
-            }else {
+
+            } else if (!_currentUserConnectedPartner.isEmpty()) {
+                Toast.makeText(AddPartnerActivity.this, "Already connected", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "status connection " + _currentUserConnectedPartner);
+            } else {
                 progressDialog.show();
 
                 //Find user equal to partner key
@@ -231,7 +234,8 @@ public class AddPartnerActivity extends AppCompatActivity {
                         _currentUserName = name;
                         _currentUserEmail = email;
                         _currentUserPartnerKey = partnerKey;
-                        _currentUserPhotoURL = profilePhoto;_currentUserConnectedPartner = connectedPartnerName;
+                        _currentUserPhotoURL = profilePhoto;
+                        _currentUserConnectedPartner = connectedPartnerName;
 
                         _currentUserID = userID;
                     }
