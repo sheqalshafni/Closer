@@ -58,11 +58,11 @@
 
         <ImageView
             android:id="@+id/_heart"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="16dp"
+            android:layout_height="14dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_heart"
-            android:layout_marginTop="50dp"/>
+            android:layout_marginTop="60dp"
+            android:src="@drawable/ic_heart" />
 
         <TextView
             android:id="@+id/_countedDays"
@@ -91,7 +91,7 @@
         android:layout_below="@id/_topView"
         android:layout_marginStart="10dp"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="10dp"
         android:textSize="20dp"
         android:textStyle="bold"
         android:text="Upcoming Events"/>
@@ -105,6 +105,45 @@
         android:overScrollMode="never"
         android:layout_below="@id/_subtitle"/>
 
+    <RelativeLayout
+        android:id="@+id/noPartnerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/_toolbar"
+        android:visibility="visible"
+        android:background="@color/grey">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/_lottieAnimation"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="40dp"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="partnerNotFound.json"
+            app:lottie_loop="true"/>
+
+        <TextView
+            android:id="@+id/_subText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="It's lonely in here. \n Connect with your partner to start tracking your days together!"
+            android:textAlignment="center"
+            android:layout_below="@id/_lottieAnimation"
+            android:textSize="14sp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/_coverLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/_toolbar"
+        android:background="@color/grey"
+        android:visibility="visible"/>
+
     <com.joaquimley.faboptions.FabOptions
         android:id="@+id/_fabMenu"
         android:layout_width="wrap_content"
@@ -113,5 +152,7 @@
         android:layout_alignParentBottom="true"
         app:fab_color="@color/lightpurple"
         app:background_color="@color/softpurple"/>
+
+
 
 </RelativeLayout>

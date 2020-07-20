@@ -8,13 +8,18 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -23,6 +28,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.sheqal.closer.HomeActivity;
 import com.sheqal.closer.R;
 
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executor;
@@ -64,6 +71,8 @@ public class PartnerInfoActivity extends AppCompatActivity {
     ImageView _btnBack;
     @BindView(R.id._btnConfirm)
     Button _btnConfirm;
+    @BindView(R.id._officialDate)
+    EditText officialDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +89,7 @@ public class PartnerInfoActivity extends AppCompatActivity {
         _checkBiometricAvailability();
         _checkBiometric();
         _getUserLoggedOnData();
+        _customDateEditText();
 
         _btnBack.setOnClickListener(v -> finish());
 
@@ -90,7 +100,7 @@ public class PartnerInfoActivity extends AppCompatActivity {
     private void _retrieveData() {
         Bundle getData = getIntent().getExtras();
         if (getData != null) {
-            
+
             partnerB_Name = getData.getString("name");
             partnerB_Email = getData.getString("email");
             partnerB_partnerKey = getData.getString("key");
@@ -130,13 +140,14 @@ public class PartnerInfoActivity extends AppCompatActivity {
                 user.put("PartnerKey", partnerB_partnerKey);
                 user.put("ProfilePhotoURL", partnerB_photoURL);
                 user.put("ConnectedPartner", _currentUserName);
+                user.put("PartnerBKey", _currentUserPartnerKey);
                 user.put("userID", partnerB_ID);
 
                 db.collection("users").document(partnerB_ID).set(user)
                         .addOnSuccessListener(aVoid -> {
                             Log.d(TAG, " Connection success " + _currentUserName + " + " + partnerB_Name);
 
-                            if(mUser!=null){
+                            if (mUser != null && officialDate.getText().toString() != null) {
 
                                 FirebaseFirestore db1 = FirebaseFirestore.getInstance();
                                 DocumentReference mRef1 = db1.collection("users").document(mUser.getUid());
@@ -148,17 +159,54 @@ public class PartnerInfoActivity extends AppCompatActivity {
                                 user1.put("PartnerKey", _currentUserPartnerKey);
                                 user1.put("ProfilePhotoURL", _currentUserPhotoURL);
                                 user1.put("ConnectedPartner", partnerB_Name);
+                                user1.put("PartnerBKey", partnerB_partnerKey);
                                 user1.put("userID", _currentUserID);
 
-                                db1.collection("users").document(mUser.getUid()).set(user1)
-                                        .addOnSuccessListener(aVoid1 -> Log.d(TAG, "Connection success " + partnerB_Name + " + " + _currentUserName))
-                                        .addOnFailureListener(e -> Log.d(TAG, "connection failed " + e.toString()));
+                                db1.collection("users").document(mUser.getUid()).set(user1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+
+                                        Map<String, Object> ConnectedUser = new HashMap<>();
+                                        ConnectedUser.put("PartnerA_UID", _currentUserID);
+                                        ConnectedUser.put("PartnerB_UID", partnerB_ID);
+                                        ConnectedUser.put("PartnerA_Name", _currentUserName);
+                                        ConnectedUser.put("PartnerB_Name", partnerB_Name);
+                                        ConnectedUser.put("CombinedKey", _currentUserPartnerKey + partnerB_partnerKey);
+                                        ConnectedUser.put("PartnerA_PhotoURL", _currentUserPhotoURL);
+                                        ConnectedUser.put("OfficialDate", officialDate.getText().toString());
+                                        ConnectedUser.put("PartnerB_PhotoURL", partnerB_photoURL);
+                                        //ConnectedUser.put("OfficialDate", );
+
+                                        db.collection("ConnectedCouples")
+                                                .add(ConnectedUser)
+                                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                    @Override
+                                                    public void onSuccess(DocumentReference documentReference) {
+                                                        Intent _homeIntent = new Intent(PartnerInfoActivity.this, HomeActivity.class);
+                                                        startActivity(_homeIntent);
+                                                        finish();
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.d(TAG, "onFailure: Failed to add couple into database " + e.getMessage());
+                                            }
+                                        });
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+
+                                    }
+                                });
 
                                 Intent _homeIntent = new Intent(PartnerInfoActivity.this, HomeActivity.class);
                                 startActivity(_homeIntent);
-                                
-                            }else {
+
+                            } else {
                                 Log.d(TAG, "onAuthenticationSucceeded: failed to get current user data");
+                                Toast.makeText(PartnerInfoActivity.this, "Error connecting with partner", Toast.LENGTH_SHORT).show();
                             }
                         })
                         .addOnFailureListener(e -> Log.d(TAG, "onFailure: fail"));
@@ -231,4 +279,72 @@ public class PartnerInfoActivity extends AppCompatActivity {
 
     }
 
+    private void _customDateEditText(){
+        TextWatcher tw = new TextWatcher() {
+
+            private String current = "";
+            private String ddmmyyyy = "DDMMYYYY";
+            private Calendar cal = Calendar.getInstance();
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().equals(current)) {
+                    String clean = s.toString().replaceAll("[^\\d.]|\\.", "");
+                    String cleanC = current.replaceAll("[^\\d.]|\\.", "");
+
+                    int cl = clean.length();
+                    int sel = cl;
+                    for (int i = 2; i <= cl && i < 6; i += 2) {
+                        sel++;
+                    }
+                    //Fix for pressing delete next to a forward slash
+                    if (clean.equals(cleanC)) sel--;
+
+                    if (clean.length() < 8) {
+                        clean = clean + ddmmyyyy.substring(clean.length());
+                    } else {
+                        //This part makes sure that when we finish entering numbers
+                        //the date is correct, fixing it otherwise
+                        int day = Integer.parseInt(clean.substring(0, 2));
+                        int mon = Integer.parseInt(clean.substring(2, 4));
+                        int year = Integer.parseInt(clean.substring(4, 8));
+
+                        mon = mon < 1 ? 1 : mon > 12 ? 12 : mon;
+                        cal.set(Calendar.MONTH, mon - 1);
+                        year = (year < 1900) ? 1900 : (year > 2100) ? 2100 : year;
+                        cal.set(Calendar.YEAR, year);
+                        // ^ first set year for the line below to work correctly
+                        //with leap years - otherwise, date e.g. 29/02/2012
+                        //would be automatically corrected to 28/02/2012
+
+                        day = (day > cal.getActualMaximum(Calendar.DATE)) ? cal.getActualMaximum(Calendar.DATE) : day;
+                        clean = String.format("%02d%02d%02d", day, mon, year);
+                    }
+
+                    clean = String.format("%s/%s/%s", clean.substring(0, 2),
+                            clean.substring(2, 4),
+                            clean.substring(4, 8));
+
+                    sel = sel < 0 ? 0 : sel;
+                    current = clean;
+                    officialDate.setText(current);
+                    officialDate.setSelection(sel < current.length() ? sel : current.length());
+                }
+
+            }
+        };
+
+        officialDate.addTextChangedListener(tw);
+
+    }
 }

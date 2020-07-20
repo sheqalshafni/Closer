@@ -273,7 +273,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                                     mAuth.getCurrentUser().sendEmailVerification();
                                     _userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                    String _partner = "Unavailable";
+                                    String _partner = "";
 
                                     Map<String, Object> user = new HashMap<>();
                                     user.put("Name", _Name.getText().toString());

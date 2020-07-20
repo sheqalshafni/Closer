@@ -1,58 +1,29 @@
 package com.sheqal.closer;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.icu.text.UnicodeSetSpanner;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.Handler;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.ImageSpan;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.Patterns;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.manojbhadane.QButton;
-import com.sheqal.closer.NoConnectedPartner.HomeActivityNoPartner;
-
-import java.util.Objects;
-import java.util.Random;
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Optional;
 
 public class LoginActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
 
@@ -62,11 +33,6 @@ public class LoginActivity extends AppCompatActivity implements FirebaseAuth.Aut
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser mUser;
-    private DocumentReference mRef;
-    private FirebaseFirestore db;
-
-    boolean isVerified;
-    int count = 0;
 
     String register;
 
@@ -91,7 +57,6 @@ public class LoginActivity extends AppCompatActivity implements FirebaseAuth.Aut
 
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
-        db = FirebaseFirestore.getInstance();
 
         _checkUserSession();
         _customString();
@@ -137,7 +102,7 @@ public class LoginActivity extends AppCompatActivity implements FirebaseAuth.Aut
         finish();
     }
 
-    private void _checkUserSession(){
+    private void _checkUserSession() {
         if (mUser != null) {
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
@@ -173,40 +138,6 @@ public class LoginActivity extends AppCompatActivity implements FirebaseAuth.Aut
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
             finish();
-
-            try{
-
-                mRef = db.collection("users").document(mUser.getUid());
-
-                mRef.get()
-                        .addOnSuccessListener(documentSnapshot -> {
-                            if (documentSnapshot.exists()) {
-                                String connectedPartner = documentSnapshot.getString("ConnectedPartner");
-
-                                if (connectedPartner.equals("Unavailable") || connectedPartner == null){
-                                    //update ui
-
-                                    Intent _noConnectedPartner = new Intent(LoginActivity.this, HomeActivityNoPartner.class);
-                                    startActivity(_noConnectedPartner);
-
-                                }else {
-                                    //update ui
-
-                                    Intent _hasPartner = new Intent(LoginActivity.this, HomeActivity.class);
-                                    startActivity(_hasPartner);
-                                }
-
-                            }
-                        })
-                        .addOnFailureListener(e -> {
-                            Log.d(TAG, "onFailure: " + e.toString());
-                        });
-
-            }catch (Exception ex){
-                Log.d(TAG, "onAuthStateChanged: Failed to get info " + ex.toString());
-            }
-
         }
-
     }
 }
