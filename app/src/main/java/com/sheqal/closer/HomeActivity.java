@@ -31,8 +31,18 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.joaquimley.faboptions.FabOptions;
 import com.sheqal.closer.adapter.EventAdapter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import aglibs.loading.skeleton.layout.SkeletonRelativeLayout;
 import butterknife.BindView;
@@ -63,6 +73,8 @@ public class HomeActivity extends AppCompatActivity {
     TextView countedDays;
 
     //Layouts
+    @BindView(R.id._topView)
+    SkeletonRelativeLayout topView;
     @BindView(R.id.noPartnerLayout)
     RelativeLayout _noPartnerLayout;
     @BindView(R.id._coverLayout)
@@ -148,12 +160,11 @@ public class HomeActivity extends AppCompatActivity {
 
                                     combinedKeys = partnerBkey + partnerAkey;
 
-                                    if(connectedPartnerName.isEmpty()){
+                                    if (connectedPartnerName.isEmpty()) {
                                         coverLayout.setVisibility(View.GONE);
-                                    }else {
+                                    } else {
                                         coverLayout.setVisibility(View.GONE);
                                         _noPartnerLayout.setVisibility(View.GONE);
-
                                         _loadUserData();
                                     }
                                 }
@@ -175,40 +186,48 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private void _loadUserData(){
+    private void _loadUserData() {
 
-        if(mUser!=null){
+        if (mUser != null) {
 
             collectionReference = db.collection("ConnectedCouples");
 
             Query userQuery = collectionReference.whereEqualTo("PartnerA_UID", mUser.getUid());
 
-            userQuery.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if(task.isSuccessful()){
-                        collectionReference.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            userQuery.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    collectionReference.get().addOnSuccessListener(queryDocumentSnapshots -> {
 
-                            for(DocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                                String key = documentSnapshot.getString("CombinedKey");
-                                String partnerA_PhotoURL = documentSnapshot.getString("PartnerA_PhotoURL");
-                                String partnerB_PhotoURL = documentSnapshot.getString("PartnerB_PhotoURL");
+                        for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            String key = documentSnapshot.getString("CombinedKey");
+                            String partnerA_PhotoURL = documentSnapshot.getString("PartnerA_PhotoURL");
+                            String partnerB_PhotoURL = documentSnapshot.getString("PartnerB_PhotoURL");
+                            String officialDate = documentSnapshot.getString("OfficialDate");
 
-                                boolean flag = sameChars(key, combinedKeys);
+                            //Get Current Date
+                            Date c = Calendar.getInstance().getTime();
+                            System.out.println("Current time => " + c);
 
-                                if(flag) {
-                                    Glide.with(HomeActivity.this)
-                                            .load(partnerA_PhotoURL)
-                                            .into(firstPartnerImage);
+                            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                            String formattedDate = df.format(c);
 
-                                    Glide.with(HomeActivity.this)
-                                            .load(partnerB_PhotoURL)
-                                            .into(secondPartnerImage);
-                                }
+                            boolean flag = sameChars(key, combinedKeys);
+
+                            if (flag) {
+                                topView.stopLoading();
+                                Glide.with(HomeActivity.this)
+                                        .load(partnerA_PhotoURL)
+                                        .into(firstPartnerImage);
+
+                                Glide.with(HomeActivity.this)
+                                        .load(partnerB_PhotoURL)
+                                        .into(secondPartnerImage);
+
+                                countedDays.setText(getCountOfDays(formattedDate, officialDate).replaceAll("-", ""));
                             }
+                        }
 
-                        });
-                    }
+                    });
                 }
             });
 
@@ -222,6 +241,59 @@ public class HomeActivity extends AppCompatActivity {
         Arrays.sort(first);
         Arrays.sort(second);
         return Arrays.equals(first, second);
+    }
+
+    public String getCountOfDays(String createdDateString, String expireDateString) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+
+        Date createdConvertedDate = null, expireCovertedDate = null, todayWithZeroTime = null;
+        try {
+            createdConvertedDate = dateFormat.parse(createdDateString);
+            expireCovertedDate = dateFormat.parse(expireDateString);
+
+            Date today = new Date();
+
+            todayWithZeroTime = dateFormat.parse(dateFormat.format(today));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        int cYear = 0, cMonth = 0, cDay = 0;
+
+        if (createdConvertedDate.after(todayWithZeroTime)) {
+            Calendar cCal = Calendar.getInstance();
+            cCal.setTime(createdConvertedDate);
+            cYear = cCal.get(Calendar.YEAR);
+            cMonth = cCal.get(Calendar.MONTH);
+            cDay = cCal.get(Calendar.DAY_OF_MONTH);
+
+        } else {
+            Calendar cCal = Calendar.getInstance();
+            cCal.setTime(todayWithZeroTime);
+            cYear = cCal.get(Calendar.YEAR);
+            cMonth = cCal.get(Calendar.MONTH);
+            cDay = cCal.get(Calendar.DAY_OF_MONTH);
+        }
+        Calendar eCal = Calendar.getInstance();
+        eCal.setTime(expireCovertedDate);
+
+        int eYear = eCal.get(Calendar.YEAR);
+        int eMonth = eCal.get(Calendar.MONTH);
+        int eDay = eCal.get(Calendar.DAY_OF_MONTH);
+
+        Calendar date1 = Calendar.getInstance();
+        Calendar date2 = Calendar.getInstance();
+
+        date1.clear();
+        date1.set(cYear, cMonth, cDay);
+        date2.clear();
+        date2.set(eYear, eMonth, eDay);
+
+        long diff = date2.getTimeInMillis() - date1.getTimeInMillis();
+
+        float dayCount = (float) diff / (24 * 60 * 60 * 1000);
+
+        return ("" + (int) dayCount);
     }
 
 }

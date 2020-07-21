@@ -28,7 +28,7 @@
     </androidx.appcompat.widget.Toolbar>
 
 
-    <RelativeLayout
+    <aglibs.loading.skeleton.layout.SkeletonRelativeLayout
         android:id="@+id/_topView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
             android:textSize="12sp"
             android:text="Days"
             android:layout_centerHorizontal="true"/>
-    </RelativeLayout>
+    </aglibs.loading.skeleton.layout.SkeletonRelativeLayout>
 
     <TextView
         android:id="@+id/_subtitle"
