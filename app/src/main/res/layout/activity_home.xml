@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:elevation="5dp">
+        android:elevation="5dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <TextView
             android:layout_width="wrap_content"
@@ -32,44 +32,38 @@
         android:id="@+id/_topView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
         android:layout_below="@id/_toolbar"
+        android:layout_centerHorizontal="true"
         android:background="@color/white"
-        android:layout_centerHorizontal="true">
+        android:padding="10dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/_firstPartner"
             android:layout_width="80dp"
             android:layout_height="80dp"
+            android:layout_marginStart="85dp"
             android:layout_marginTop="25dp"
             android:layout_marginBottom="20dp"
-            android:layout_marginStart="85dp"
-            android:src="@drawable/ic_profile"/>
+            android:src="@drawable/ic_profile" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/_secondPartner"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="20dp"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="25dp"
             android:layout_marginEnd="85dp"
-            android:src="@drawable/ic_profile"/>
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/ic_profile" />
 
-        <ImageView
-            android:id="@+id/_heart"
-            android:layout_width="16dp"
-            android:layout_height="14dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="60dp"
-            android:src="@drawable/ic_heart" />
 
         <TextView
             android:id="@+id/_countedDays"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_below="@id/_heart"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="65dp"
             android:text="3500"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -79,39 +73,217 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/_countedDays"
-            android:textSize="12sp"
+            android:layout_centerHorizontal="true"
             android:text="Days"
-            android:layout_centerHorizontal="true"/>
+            android:textSize="12sp" />
     </aglibs.loading.skeleton.layout.SkeletonRelativeLayout>
 
-    <TextView
-        android:id="@+id/_subtitle"
+    <ImageView
+        android:id="@+id/_heart"
+        android:layout_width="16dp"
+        android:layout_height="14dp"
+        android:layout_below="@id/_toolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/ic_heart" />
+
+
+    <RelativeLayout
+        android:id="@+id/_eventSkeletonView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/_topView"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="10dp"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:text="Upcoming Events"/>
+        android:layout_below="@id/_topView">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/_eventRV"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:background="@color/grey"
-        android:overScrollMode="never"
-        android:layout_below="@id/_subtitle"/>
+        <RelativeLayout
+            android:id="@+id/_eventPlaceholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            >
+
+            <TextView
+                android:id="@+id/txtFirstEventTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:text="Anniversary"
+                android:textSize="22sp" />
+
+            <View
+                android:layout_width="393dp"
+                android:layout_height="1dp"
+                android:layout_below="@id/txtFirstEventTitle"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="5dp"
+                android:background="@color/grey" />
+
+        </RelativeLayout>
+
+        <aglibs.loading.skeleton.layout.SkeletonRelativeLayout
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/_eventPlaceholder"
+            android:background="@color/white"
+            app:clipToText="true">
+
+            <TextView
+                android:id="@+id/_eventTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:text="eventTitle"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/_anniversaryRemainingDays"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginEnd="20dp"
+                android:text="XXXX"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/_DaysLeftFor5Years"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="20dp"
+                android:layout_below="@id/_anniversaryRemainingDays"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:text="days left"
+                android:textSize="14sp" />
+
+        </aglibs.loading.skeleton.layout.SkeletonRelativeLayout>
+
+        <aglibs.loading.skeleton.layout.SkeletonRelativeLayout
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view"
+            android:background="@color/white"
+            app:clipToText="true">
+
+            <View
+                android:layout_width="393dp"
+                android:layout_height="1dp"
+                android:layout_alignParentEnd="true"
+                android:background="@color/grey" />
+
+            <TextView
+                android:id="@+id/_eventTitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:text="eventTitle"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/_anniversaryRemainingDays2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginEnd="20dp"
+                android:text="XXXX"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/_DaysLeftFor10Years"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="20dp"
+                android:layout_below="@id/_anniversaryRemainingDays2"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:text="days left"
+                android:textSize="14sp" />
+
+        </aglibs.loading.skeleton.layout.SkeletonRelativeLayout>
+
+        <aglibs.loading.skeleton.layout.SkeletonRelativeLayout
+            android:id="@+id/view3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view2"
+            android:background="@color/white"
+            app:clipToText="true">
+
+            <View
+                android:layout_width="393dp"
+                android:layout_height="1dp"
+                android:layout_alignParentEnd="true"
+                android:background="@color/grey" />
+
+            <TextView
+                android:id="@+id/_eventTitle3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:text="eventTitle"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/_anniversaryRemainingDays3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="7dp"
+                android:layout_marginEnd="20dp"
+                android:text="XXXX"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/_DaysLeftFor15Years"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="20dp"
+                android:layout_below="@id/_anniversaryRemainingDays3"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:text="days left"
+                android:textSize="14sp" />
+
+        </aglibs.loading.skeleton.layout.SkeletonRelativeLayout>
+
+    </RelativeLayout>
+
+    <aglibs.loading.skeleton.view.SkeletonTextView
+        android:id="@+id/txtQuote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/_eventSkeletonView"
+        android:layout_centerInParent="true"
+        android:padding="25dp"
+        android:layout_marginTop="20dp"
+        android:text="Quotes goes here"
+        android:textAlignment="center"
+        android:textColor="@color/lightpurple"
+        android:textSize="14sp" />
 
     <RelativeLayout
         android:id="@+id/noPartnerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/_toolbar"
-        android:visibility="visible"
-        android:background="@color/grey">
+        android:background="@color/grey"
+        android:visibility="invisible">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/_lottieAnimation"
@@ -121,18 +293,18 @@
             android:layout_marginTop="40dp"
             app:lottie_autoPlay="true"
             app:lottie_fileName="partnerNotFound.json"
-            app:lottie_loop="true"/>
+            app:lottie_loop="true" />
 
         <TextView
             android:id="@+id/_subText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/_lottieAnimation"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
             android:text="It's lonely in here. \n Connect with your partner to start tracking your days together!"
             android:textAlignment="center"
-            android:layout_below="@id/_lottieAnimation"
-            android:textSize="14sp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"/>
+            android:textSize="14sp" />
 
     </RelativeLayout>
 
@@ -142,17 +314,16 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/_toolbar"
         android:background="@color/grey"
-        android:visibility="visible"/>
+        android:visibility="invisible" />
 
     <com.joaquimley.faboptions.FabOptions
         android:id="@+id/_fabMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        app:fab_color="@color/lightpurple"
-        app:background_color="@color/softpurple"/>
-
+        android:layout_centerHorizontal="true"
+        app:background_color="@color/softpurple"
+        app:fab_color="@color/lightpurple" />
 
 
 </RelativeLayout>

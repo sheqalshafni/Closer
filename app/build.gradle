@@ -70,6 +70,8 @@ dependencies {
     implementation 'com.github.AgnaldoNP:AGSkeletonLoading:1.0'
     //Biometric confirmation
     implementation 'androidx.biometric:biometric:1.0.1'
+    //Custom DropDownDialog
+    implementation 'com.asksira.android:dropdownview:1.0.3'
 
     implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.navigation:navigation-fragment:2.2.2'

@@ -47,6 +47,10 @@ public class SettingsActivity extends AppCompatActivity {
     ImageView btnBack;
     @BindView(R.id._btnAddPartner)
     TextView btnAddPartner;
+    @BindView(R.id._btnAccount)
+    TextView btnAccount;
+    @BindView(R.id._btnAbout)
+    TextView btnAbout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,17 @@ public class SettingsActivity extends AppCompatActivity {
         mUser = mAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
         mRef = db.collection("users").document(mUser.getUid());
+
+        btnAccount.setOnClickListener(v -> {
+            Intent _accountIntent = new Intent(SettingsActivity.this, ProfileActivity.class);
+            startActivity(_accountIntent);
+            finish();
+        });
+
+        btnAbout.setOnClickListener(v -> {
+            Intent _aboutIntent = new Intent(SettingsActivity.this, AboutActivity.class);
+            startActivity(_aboutIntent);
+        });
 
         btnLogout.setOnClickListener(v -> logout());
 

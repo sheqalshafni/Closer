@@ -201,9 +201,6 @@ public class PartnerInfoActivity extends AppCompatActivity {
                                     }
                                 });
 
-                                Intent _homeIntent = new Intent(PartnerInfoActivity.this, HomeActivity.class);
-                                startActivity(_homeIntent);
-
                             } else {
                                 Log.d(TAG, "onAuthenticationSucceeded: failed to get current user data");
                                 Toast.makeText(PartnerInfoActivity.this, "Error connecting with partner", Toast.LENGTH_SHORT).show();

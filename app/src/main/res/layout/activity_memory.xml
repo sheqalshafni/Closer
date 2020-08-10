@@ -61,7 +61,7 @@
 
         <ImageView
             android:id="@+id/_memoryImage"
-            android:layout_width="410dp"
+            android:layout_width="400dp"
             android:layout_height="200dp"
             android:layout_below="@id/_txtMemoryTitle"
             android:elevation="5dp"/>
@@ -89,36 +89,10 @@
             android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/_memoryDateTitle"
-            android:inputType="none"
+            android:inputType="number"
             android:textSize="18sp"
-            android:text="8.12.1997"
             android:hint="Memory Date"
             android:backgroundTint="@color/transparent"/>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/_memoryInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:padding="10dp"
-        android:layout_below="@+id/_memoryTitle"
-        android:layout_marginTop="5dp">
-
-        <TextView
-            android:id="@+id/_memoryTypeTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Memory Type"
-            android:textColor="@color/lightpurple"
-            android:textSize="16sp"/>
-
-        <Spinner
-            android:id="@+id/_spinnerMemoryType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/_memoryTypeTitle"/>
 
     </RelativeLayout>
 
@@ -127,7 +101,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:layout_below="@+id/_memoryInfo"
+        android:layout_below="@+id/_memoryTitle"
         android:layout_marginTop="5dp"
         android:padding="10dp">
 
@@ -141,27 +115,29 @@
 
         <EditText
             android:id="@+id/_memoryNotes"
-            android:layout_width="410dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Add a description"
+            android:hint="Add a description (optional)"
+            android:maxLines="5"
             android:backgroundTint="@color/transparent"
             android:layout_below="@+id/_memoryNotesTitle"
             android:textSize="18sp"/>
 
-        <Button
-            android:id="@+id/_btnConfirm"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:textColor="@color/white"
-            android:textAllCaps="false"
-            android:background="@drawable/button_gradient"
-            android:text="Confirm"
-            android:layout_below="@+id/_memoryNotes"
-            android:layout_alignParentEnd="true"
-            android:elevation="5dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"/>
-
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/_btnConfirm"
+        android:layout_width="350dp"
+        android:layout_height="50dp"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:background="@drawable/custom_button"
+        android:text="Confirm"
+        android:layout_below="@+id/_memoryExtras"
+        android:layout_centerHorizontal="true"
+        android:elevation="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="20dp"/>
 
 </RelativeLayout>

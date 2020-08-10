@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AboutActivity"
+    android:background="@color/grey">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/_settingsToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:elevation="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="About"
+            android:textSize="28sp"
+            android:textColor="@color/lightpurple"
+            android:layout_gravity="center"
+            android:fontFamily="cursive"/>
+
+        <ImageView
+            android:id="@+id/_aboutBtnBack"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_back"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ImageView
+        android:id="@+id/_appLogo"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/_settingsToolbar"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/ic_main_logo"
+        android:tint="@color/lightpurple"/>
+
+    <TextView
+        android:id="@+id/_appName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Closer"
+        android:fontFamily="cursive"
+        android:textSize="12sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/_appLogo"/>
+
+    <TextView
+        android:id="@+id/_appCopyright"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="\u00a9 Copyright 2020"
+        android:textSize="9sp"
+        android:layout_below="@id/_appName"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/_appInquiries"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please email us at admin@closer.com for any inquiries."
+        android:textSize="9sp"
+        android:layout_below="@id/_appCopyright"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>
